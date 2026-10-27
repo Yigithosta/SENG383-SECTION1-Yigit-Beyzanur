@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Environment files (never commit real keys)
+.env
+.env.*
+!.env.example
+
+# SQLite databases
+*.sqlite
+*.sqlite3
+*.db
+
+# Build and test output
+dist/
+coverage/
+playwright-report/
+test-results/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
