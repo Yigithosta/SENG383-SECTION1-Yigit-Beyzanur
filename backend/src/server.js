@@ -1,7 +1,10 @@
 const { createApp } = require('./app');
+const { openDb } = require('./db');
 
 const PORT = process.env.PORT || 3001;
 
-createApp().listen(PORT, () => {
+const db = openDb();
+
+createApp({ db }).listen(PORT, () => {
   console.log(`Backend listening on http://localhost:${PORT}`);
 });
