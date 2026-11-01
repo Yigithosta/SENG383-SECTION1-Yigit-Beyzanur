@@ -1,8 +1,10 @@
-# Software Requirements Specification (SRS)
+"# Software Requirements Specification (SRS)
+
 **Team name:** SENG383-SECTION1-Yigit-Beyzanur
 **Version:** First version (Week 6)
 **Last updated:** 2026-10-29
-
+1.0	       2026-10-29     	Project Team	    Initial SRS version
+1.1  	      DATE       	Project Team	    Added priorities and clarified functional requirements
 ---
 
 ## 1. Introduction
@@ -43,6 +45,8 @@ FR-M1-02: Invalid Login= The system shall reject login attempts with invalid cre
 FR-M1-03: Role-Based Interface= The system shall display the interface appropriate to the authenticated user's role: Parent, Specialist, or Child.
 FR-M1-04: Protected Access= The system shall prevent unauthenticated users from accessing protected application resources.
 
+All priortites are must.
+
 Acceptance Criteria:
 A registered user with valid credentials can log in successfully.
 A user who enters invalid credentials receives an appropriate error message.
@@ -62,6 +66,9 @@ FR-M2-01: Link a Specialist= The system shall allow a parent to link a registere
 FR-M2-02: Unlink a Specialist= The system shall allow a parent to remove a previously linked specialist from their child's account.
 FR-M2-03: Restrict Unlinked Specialist Access= The system shall prevent specialists who are not linked to a child from accessing that child's data.
 FR-M2-04: Enforce Authorization in the Backend=The system shall verify specialist-child relationships in the backend API before granting access to child-related data.
+FR-M2-05: Unregistered Specialist Error: The system shall display an error message when a parent attempts to link an email address that does not belong to a registered specialist.
+FR-M2-06: Linked Specialists List: The system shall display the list of specialists currently linked to the parent's child.
+FR-M2-07: Unlink Confirmation: The system shall require confirmation before removing a specialist link.
 
 Acceptance Criteria
 A parent can successfully link a registered specialist using a valid email address.
@@ -70,11 +77,16 @@ A linked specialist can access the data of the child they are linked to, subject
 An unlinked specialist cannot access the child's data.
 Removing a specialist link immediately prevents further authorized access through the backend API.
 A specialist cannot gain access to a child simply by knowing the child's identifier.
+When a parent enters an unregistered specialist email, the system displays an appropriate error message and does not create a link.
+The parent can view the list of specialists linked to their child.
+The parent must confirm the unlink action before the specialist is removed.
+After confirmation, the specialist is removed from the linked specialists list.
+The unlinked specialist immediately loses access to the child's data through the backend API.
 
 Verification
 These requirements shall be verified using automated API tests for linking, unlinking, and access control. Tests shall confirm that linked specialists can access authorized child data and unlinked specialists cannot.
 
-### M3 – Task & Schedule Management
+### M3 – Weekly Schedule Management
 As a parent or a linked specialist, I want to add events to a child's weekly schedule so that the child's activities can be organized and viewed in one place.
 
 As a child, I want to view my weekly schedule so that I can see my planned activities.
@@ -98,7 +110,7 @@ Users cannot access another child's schedule without the required permissions.
 Verification
 These requirements shall be verified using automated tests for event creation, weekly schedule display, and role-based schedule access. Tests shall include both authorized and unauthorized access attempts.
 
-### M4 – Development Progress Tracking
+### M4 – Task Management
 As a parent or a linked specialist, I want to assign tasks to a child so that the child's activities and responsibilities can be organized.
 
 As a child, I want to mark my assigned tasks as completed so that the person who assigned the task can track my progress.
@@ -110,6 +122,9 @@ FR-M4-03: View Assigned Tasks= The system shall allow a child to view their own 
 FR-M4-04: Mark Tasks as Completed= The system shall allow a child to mark an assigned task as completed.
 FR-M4-05: Track Task Status= The system shall allow the user who assigned a task to view its completion status.
 FR-M4-06: Task Access Control= The system shall prevent unauthorized users from assigning, viewing, or modifying tasks belonging to a child they are not authorized to access.
+FR-M4-07: Task Details: The system shall require a title and description for each assigned task.
+FR-M4-08: Development Area: The system shall allow the task assigner to select a development area for each task.
+FR-M4-09: Due Date: The system shall allow the task assigner to specify a due date for each task
 
 Acceptance Criteria
 A parent can assign a task to their child.
@@ -119,6 +134,10 @@ A child can mark an assigned task as completed.
 The task completion status is visible to the user who assigned the task.
 An unlinked specialist cannot assign tasks to or access tasks belonging to that child.
 A user cannot access another child's tasks without the required permissions.
+Each task has a title and description.
+Each task is associated with a development area.
+Each task has a due date.
+The development area and due date are stored and available for weekly statistics.
 
 Verification
 These requirements shall be verified using automated tests for task assignment, task listing, task completion, status tracking, and role-based access control. Tests shall include authorized and unauthorized access attempts.
@@ -131,12 +150,17 @@ As a parent, I want to access records related to my child so that I can follow t
 
 Functional Requirements
 
-FR-M5-01: Create Observation Entries= The system shall allow a specialist linked to a child to create an observation entry for that child.
-FR-M5-02: Date Observation Entries= The system shall associate a date with each observation entry.
-FR-M5-03: Edit Observation Entries= The system shall allow a specialist to edit an existing observation entry.
-FR-M5-04: Mark Edited Entries= The system shall mark an observation entry as "edited" when it has been modified.
-FR-M5-05: Restrict Child Access=The system shall prevent child users from viewing specialist observation entries.
-FR-M5-06: Enforce Specialist Access Control= The system shall prevent specialists from creating or accessing observation entries for children they are not linked to.
+FR-M5-01: Create Observation Entries = The system shall allow a specialist currently linked to a child to create observation entries for that child.
+
+FR-M5-02: Date Observation Entries = The system shall associate a date with each observation entry.
+
+FR-M5-03: Edit Observation Entries = The system shall allow only the specialist who created an observation entry to edit it, provided that the specialist is still linked to the child.
+
+FR-M5-04: Mark Edited Entries = The system shall mark an observation entry as "edited" when it has been modified.
+
+FR-M5-05: Restrict Child Access = The system shall prevent child users from viewing specialist observation entries.
+
+FR-M5-06: Enforce Specialist Access Control = The system shall prevent specialists who are not currently linked to a child from creating, viewing, or editing that child's observation entries.
 
 Acceptance Criteria
 A specialist linked to a child can create an observation entry for that child.
@@ -146,6 +170,12 @@ An edited observation entry is visibly marked as "edited".
 A child user cannot view specialist observation entries.
 An unlinked specialist cannot create or access observation entries for a child.
 Parent access to their child's records follows the parent data-access permissions defined by the system.
+The specialist who created an observation entry can edit it while remaining linked to the child.
+Another linked specialist cannot edit an observation entry created by a different specialist.
+An unlinked specialist cannot edit the observation entry.
+An edited observation entry is visibly marked as "edited".
+Parents can view all observation entries related to their own child.
+Child users cannot view specialist observation entries.
 
 Verification
 These requirements shall be verified using automated tests for observation creation, date association, editing, edited status, and role-based access restrictions. Tests shall confirm that child users and unlinked specialists cannot access restricted observation entries.
@@ -156,17 +186,19 @@ As a parent or a specialist linked to a child, I want to upload, list, and downl
 
 Functional Requirements
 FR-M6-01: Upload Documents
-The system shall allow authorized users to upload documents related to a child.
+The system shall allow a parent of a child or a specialist currently linked to that child to upload documents related to the child.
+
 FR-M6-02: Supported File Types
 The system shall support PDF files and image files for document uploads.
+
 FR-M6-03: List Documents
-The system shall allow authorized users to view a list of documents associated with a child.
+The system shall allow a parent of a child or a specialist currently linked to that child to view the documents associated with the child.
+
 FR-M6-04: Download Documents
-The system shall allow authorized users to download documents associated with a child.
+The system shall allow a parent of a child or a specialist currently linked to that child to download documents associated with the child.
+
 FR-M6-05: Restrict Child Access
-The system shall prevent child users from accessing uploaded documents.
-FR-M6-06: Enforce Document Access Control
-The system shall verify user permissions before allowing document upload, listing, or download operations.
+The system shall prevent child users from viewing or downloading uploaded documents.
 
 Acceptance Criteria
 An authorized user can upload a PDF document.
@@ -175,6 +207,12 @@ Uploaded documents appear in the document list for authorized users.
 An authorized user can download an uploaded document.
 Child users cannot list or download uploaded documents.
 Specialists cannot access documents belonging to children they are not linked to.
+Unauthorized document operations are rejected by the backend.
+A parent can upload, list, view, and download PDF and image files associated with their child.
+A specialist linked to the child can upload, list, view, and download the child's documents.
+A child user cannot list, view, or download uploaded documents.
+A specialist who is not linked to the child cannot access that child's documents.
+The system rejects file types other than PDF and supported image formats.
 Unauthorized document operations are rejected by the backend.
 
 Verification
@@ -191,6 +229,12 @@ FR-M7-02: Calculate Overall Completion Rate= The system shall calculate the over
 FR-M7-03: Display Overall Statistics= The system shall display the overall task completion rate for the selected week.
 FR-M7-04: Calculate Completion Rate by Development Area= The system shall calculate task completion rates separately for each development area for the selected week.
 FR-M7-05: Display Area-Based Statistics= The system shall display task completion statistics for each development area for the selected week.
+FR-M7-06: Task-Based Statistics: The system shall calculate weekly statistics using tasks whose due dates fall within the selected week.
+FR-M7-07: Statistics Access Control: The system shall allow parents to view statistics for their own children and shall prevent specialists who are not linked to a child from accessing that child's statistics.
+
+Completion Rate =
+(Number of Completed Tasks / Total Number of Tasks Due)
+× 100
 
 Acceptance Criteria
 A user can select a week to view its statistics
@@ -199,7 +243,12 @@ The overall completion rate is displayed to the user.
 The system calculates completion rates separately for each development area.
 Statistics are displayed for each development area.
 Changing the selected week updates the displayed statistics.
-Statistics are calculated using tasks associated with the selected week.
+Statistics are calculated using tasks associated with the selected week.Only tasks with due dates within the selected week are included in the weekly statistics.
+The system calculates the overall completion rate using the tasks due during the selected week.
+The system calculates completion rates separately for each development area.
+A parent can view statistics for their own child.
+An unlinked specialist cannot access a child's statistics through the backend API.
+Changing the selected week updates the statistics using the tasks due during that week.
 
 Verification
 These requirements shall be verified using automated tests with sample task data. Tests shall check the overall completion rate, completion rates by development area, and whether changing the selected week updates the results correctly.
@@ -240,6 +289,16 @@ NFR-04 – AI Testing: The AI integration shall provide a mock mode for automate
 
 NFR-05 – Technology: The system shall use React (Vite), Node.js, Express, SQLite, and JWT authentication.
 
+NFR-06 – Performance:
+Under the agreed test environment and dataset,
+at least 95% of API requests shall complete
+within 2 seconds.
+
+NFR-07 – Usability:
+Users shall be able to log in and access
+their role-specific dashboard without
+assistance during usability testing.
+
 ## 4. Critical Flows and Acceptance Criteria
 
 Flow 1: Specialist Linking and Access Control
@@ -276,4 +335,4 @@ And when the parent requests a weekly AI summary,
 Then the system shall generate a summary based on the records available for the selected week.
 And the generated summary shall be appropriate for the parent's role and clearly labeled as "AI-generated".
 And the summary shall provide links to its source records, subject to the user's access permissions.
-And the AI summary shall support human decision-making without providing diagnoses or treatment recommendations.
+And the AI summary shall support human decision-making without providing diagnoses or treatment recommendations
