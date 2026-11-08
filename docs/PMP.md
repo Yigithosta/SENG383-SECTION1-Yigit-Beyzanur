@@ -38,29 +38,27 @@ Both members review and approve each other's pull requests; `main` requires one 
 
 ### Work Packages (Epics)
 
-> One row per Jira epic. Number of tasks = how many tasks you created under that epic.
-
 | Epic | Owner | Number of tasks | Planned sprint(s) |
 |---|---|---|---|
-| M1 | | | |
-| M2 | | | |
-| M3 | | | |
-| M4 | | | |
-| M5 | | | |
-| M6 | | | |
-| M7 | | | |
-| M8 | | | |
+| M1 | Yiğit Ahmet Hosta | 7 | Sprint 1–2 |
+| M2 | Yiğit Ahmet Hosta | 2 | Sprint 2 |
+| M3 | Beyza Nur Güngör | 2 | Sprint 2 |
+| M4 | Beyza Nur Güngör | 3 | Sprint 2 |
+| M5 | Yiğit Ahmet Hosta | 0 (planned) | Sprint 3 |
+| M6 | Beyza Nur Güngör | 0 (planned) | Sprint 3 |
+| M7 | Beyza Nur Güngör | 0 (planned) | Sprint 3 |
+| M8 | Yiğit Ahmet Hosta | 1 | Sprint 3 |
+
+M1 tasks are shared: setup, README and the end-to-end tests are owned by Beyza Nur Güngör.
 
 ### Sprint Plan
 
-> One row per Jira sprint. Align sprints with the weekly schedule.
-
 | Sprint | Weeks | Sprint goal | Ends with |
 |---|---|---|---|
-| Sprint 1 | | | Walking skeleton (v0.0), Week 6 |
-| Sprint 2 | | | Release v0.1, mid-term |
-| Sprint 3 | | | Release v0.2, Week 10 |
-| Sprint 4 | | | Release v1.0, final |
+| Sprint 1 | Weeks 5–6 (26 Oct – 8 Nov) | Jira and GitHub setup, SRS and design document first version, PMP-1 and PMP-2 | Walking skeleton (v0.0), Week 6 |
+| Sprint 2 | Weeks 7–8 (9 – 22 Nov) | M1–M4, first end-to-end test in CI, live demo, PMP-3 and PMP-4 | Release v0.1, mid-term |
+| Sprint 3 | Weeks 9–10 (23 Nov – 6 Dec) | M5–M8, end-to-end tests for 3 critical flows, final SRS and design, PMP-5 | Release v0.2, Week 10 |
+| Sprint 4 | Weeks 11–12 (7 – 20 Dec) | End-to-end test for each module, final report, PMP-6, presentation | Release v1.0, final |
 
 ---
 
