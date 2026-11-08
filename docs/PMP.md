@@ -27,11 +27,10 @@
 
 | Name | Jira / GitHub username | Role |
 |---|---|---|
-| | | |
-| | | |
-| | | |
-| | | |
-| | | |
+| Yiğit Ahmet Hosta | Yiğit Ahmet Hosta / Yigithosta | Full-stack developer and Jira/GitHub admin. Owns M1, M2, M5, M8, the design document and CI. PMP-1, PMP-3, PMP-5. |
+| Beyza Nur Güngör | Beyza Nur Güngör / beyza21b | Full-stack developer. Owns M3, M4, M6, M7, the SRS and the end-to-end tests. PMP-2, PMP-4, PMP-6. |
+
+Both members review and approve each other's pull requests; `main` requires one approval before merging.
 
 ---
 
