@@ -2,6 +2,9 @@ const express = require('express');
 const { createDemoRouter } = require('./routes/demo');
 const { createAuthRouter } = require('./routes/auth');
 const { createRequireAuth } = require('./middleware/requireAuth');
+const { createRequireChildAccess } = require('./middleware/requireChildAccess');
+const { createChildrenListRouter, createChildProfileRouter } = require('./routes/children');
+const { createSpecialistsRouter } = require('./routes/specialists');
 const { sendError } = require('./errors');
 
 // jwtSecret is passed in (not read from process.env here) so tests can use
@@ -25,6 +28,18 @@ function createApp({ db, jwtSecret }) {
 
   app.use('/api/auth', createAuthRouter({ db, jwtSecret, requireAuth }));
   app.use('/api/demo', createDemoRouter({ db }));
+
+  app.use('/api/children', createChildrenListRouter({ db, requireAuth }));
+
+  // Everything under /api/children/:childId passes requireAuth and
+  // requireChildAccess first, so req.user, req.child and req.childRelation
+  // are always set. Add module routers here, for example:
+  //   childScope.use('/events', createEventsRouter({ db }));
+  // and narrow each route with allowRelations(...) from the SDD access table.
+  const childScope = express.Router({ mergeParams: true });
+  childScope.use('/specialists', createSpecialistsRouter({ db }));
+  childScope.use('/', createChildProfileRouter());
+  app.use('/api/children/:childId', requireAuth, createRequireChildAccess({ db }), childScope);
 
   // Unknown /api paths get a JSON 404 instead of Express's HTML page.
   app.use('/api', (req, res) => sendError(res, 404, 'NOT_FOUND', 'İstenen kaynak bulunamadı.'));
