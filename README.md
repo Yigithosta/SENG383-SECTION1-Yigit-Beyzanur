@@ -126,4 +126,30 @@ Development Notes
 - Do not commit .env files, credentials, or private data.
 - Keep changes in feature branches and submit them through pull requests.
 - Follow the project's Jira task and GitHub workflow conventions.
- 
+
+
+#  Frontend Setup & Development Guide
+
+This guide covers the steps required to set up, run, and develop the frontend application locally, along with available npm scripts, environment configuration, and test suites.
+
+---
+
+##  Prerequisites
+
+Before getting started, make sure you have the following installed on your local machine:
+
+| Tool | Recommended Version | Verification Command |
+| :--- | :--- | :--- |
+| **Node.js** | `v18.x` or higher (LTS recommended) | `node -v` |
+| **npm** | `v9.x` or higher | `npm -v` |
+| **Git** | `2.x` | `git --version` |
+
+---
+
+##  Step-by-Step Installation
+
+### 1. Clone the Repository and Navigate to Frontend
+
+```bash
+git clone https://github.com<organization-or-user>/<repo-name>.git
+cd <repo-name>/frontend
