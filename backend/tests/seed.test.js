@@ -24,6 +24,13 @@ describe('seed', () => {
     }
   });
 
+  it('hashes every account separately', () => {
+    seed(db);
+
+    const hashes = db.prepare('SELECT password_hash FROM users').all().map((u) => u.password_hash);
+    expect(new Set(hashes).size).toBe(USERS.length);
+  });
+
   it('links the teacher and psychologist to the child but not the doctor', () => {
     seed(db);
 
