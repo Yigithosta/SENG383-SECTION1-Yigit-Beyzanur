@@ -123,7 +123,7 @@ describe('session (FR-M1-04)', () => {
     installFakeBackend();
     renderApp('/children/1');
 
-    expect(await screen.findByRole('heading', { name: 'Giriş yap' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Hesabınıza giriş yapın' })).toBeInTheDocument();
     expect(window.location.pathname).toBe('/login');
 
     await logIn('parent@demo.test');
@@ -153,7 +153,7 @@ describe('session (FR-M1-04)', () => {
     storeTokenFor(USERS.parent);
     renderApp('/children');
 
-    expect(await screen.findByRole('heading', { name: 'Giriş yap' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Hesabınıza giriş yapın' })).toBeInTheDocument();
     expect(window.localStorage.getItem('seng383.token')).toBeNull();
   });
 
@@ -164,7 +164,7 @@ describe('session (FR-M1-04)', () => {
 
     await userEvent.click(await screen.findByTestId('logout-button'));
 
-    expect(await screen.findByRole('heading', { name: 'Giriş yap' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Hesabınıza giriş yapın' })).toBeInTheDocument();
     expect(window.localStorage.getItem('seng383.token')).toBeNull();
     expect(window.location.pathname).toBe('/login');
   });
