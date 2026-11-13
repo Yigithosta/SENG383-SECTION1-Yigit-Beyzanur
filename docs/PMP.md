@@ -82,7 +82,7 @@ Status on 13 November 2026, the end of week 7 and the middle of Sprint 2. Releas
 | PMP-1, PMP-2 | Project, team, work packages and sprint plan | Done |
 | PMP-3 | This section | In progress until this pull request is merged |
 
-**Sprint 2 in numbers:** 16 tasks: 5 in review, 2 in progress and 9 not started. Sprint 1 closed with 8 tasks done and 8 pull requests merged.
+**Sprint 2 in numbers:** 16 tasks: 6 in review (including this PMP-3), 1 in progress (SCRUM-25, the parent of the JWT task) and 9 not started. Sprint 1 closed with 8 tasks done and 8 pull requests merged.
 
 **Changes to the plan (if any):**
 - **Demo date.** The live demo is on Monday 16 November, in the first class of week 8, not at the end of Sprint 2 (22 November). The due date of every v0.1 task is now 15 November.
