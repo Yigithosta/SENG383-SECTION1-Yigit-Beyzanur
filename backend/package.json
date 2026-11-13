@@ -8,7 +8,8 @@
     "start": "node --env-file-if-exists=.env src/server.js",
     "dev": "node --env-file-if-exists=.env --watch src/server.js",
     "seed": "node --env-file-if-exists=.env src/db/seed.js",
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage --coverageReporters=text-summary --coverageReporters=text --coverageReporters=html"
   },
   "engines": {
     "node": ">=22.9"
@@ -25,5 +26,10 @@
   "allowScripts": {
     "better-sqlite3@12.11.1": true,
     "fsevents": false
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ]
   }
 }

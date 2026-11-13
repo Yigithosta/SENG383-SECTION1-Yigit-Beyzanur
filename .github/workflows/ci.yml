@@ -1,20 +1,79 @@
 name: CI
 
+# Runs on every pull request (also stacked PRs whose base is not main)
+# and on every push to main.
 on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+
+permissions:
+  contents: read
+
+# A new push to the same branch cancels the run that is still going.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Oldest version allowed by "engines" in package.json.
+  NODE_VERSION: 22
 
 jobs:
-  build:
+  backend:
+    name: Backend tests
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Show repository files
-        run: ls -la
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
 
-      - name: Placeholder test
-        run: echo "CI pipeline is working"
+      - name: Install dependencies
+        run: npm ci
+
+      # Jest + Supertest with branch coverage (target: 40% in week 10, 60% in week 12).
+      # Tests use an in-memory SQLite database and their own JWT secret.
+      - name: Run tests with coverage
+        run: npm run test:coverage
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage
+          path: backend/coverage/
+          retention-days: 14
+          if-no-files-found: ignore
+
+  frontend:
+    name: Frontend tests and build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+  # SCRUM-38 adds the Playwright end-to-end job here.
