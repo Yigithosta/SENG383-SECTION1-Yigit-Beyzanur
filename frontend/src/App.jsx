@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ParentHome from './pages/ParentHome.jsx';
 import SpecialistHome from './pages/SpecialistHome.jsx';
+import SpecialistsPage from './pages/SpecialistsPage.jsx';
 
 const ADULTS = ['parent', 'specialist'];
 
@@ -25,7 +26,7 @@ function ChildrenHome() {
 //   /children/:childId              child profile, with tabs:
 //     schedule                      M3 weekly schedule (SCRUM-34)
 //     tasks                         M4 assign and list tasks (SCRUM-36)
-//     specialists                   M2 linked specialists (SCRUM-44)
+//     specialists                   M2 SpecialistsPage
 //   /my-tasks                       ChildHome, the child's tasks (SCRUM-37)
 export function AppRoutes() {
   return (
@@ -61,7 +62,7 @@ export function AppRoutes() {
           <Route index element={<ChildOverview />} />
           <Route path="schedule" element={<ComingSoon title="Haftalık takvim" task="SCRUM-34" />} />
           <Route path="tasks" element={<ComingSoon title="Görevler" task="SCRUM-36" />} />
-          <Route path="specialists" element={<ComingSoon title="Bağlı uzmanlar" task="SCRUM-44" />} />
+          <Route path="specialists" element={<SpecialistsPage />} />
         </Route>
 
         <Route

@@ -13,4 +13,11 @@ export const TEST_IDS = {
   childName: 'child-name',
   childNav: 'child-nav',
   childHome: 'child-home',
+  specialistsList: 'specialists-list',
+  specialistRow: 'specialist-row',
+  specialistEmail: 'specialist-email',
+  addSpecialist: 'add-specialist',
+  specialistError: 'specialist-error',
+  removeSpecialist: 'remove-specialist',
+  confirmRemove: 'confirm-remove',
 };
