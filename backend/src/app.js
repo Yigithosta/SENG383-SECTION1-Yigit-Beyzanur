@@ -1,5 +1,4 @@
 const express = require('express');
-const { createDemoRouter } = require('./routes/demo');
 const { createAuthRouter } = require('./routes/auth');
 const { createRequireAuth } = require('./middleware/requireAuth');
 const { createRequireChildAccess } = require('./middleware/requireChildAccess');
@@ -27,7 +26,6 @@ function createApp({ db, jwtSecret }) {
   });
 
   app.use('/api/auth', createAuthRouter({ db, jwtSecret, requireAuth }));
-  app.use('/api/demo', createDemoRouter({ db }));
 
   app.use('/api/children', createChildrenListRouter({ db, requireAuth }));
 
