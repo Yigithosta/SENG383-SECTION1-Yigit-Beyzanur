@@ -64,14 +64,41 @@ M1 tasks are shared: setup, README and the end-to-end tests are owned by Beyza N
 
 ## PMP-3. Progress Review: Mid-term (v0.1)
 
-**Jira board screenshot:**
+Status on 13 November 2026, the end of week 7 and the middle of Sprint 2. Release v0.1 (M1–M4) is shown live in class on Monday 16 November.
+
+**Jira board screenshot:** Sprint 2 board on 13 November.
+
+![Jira board, Sprint 2, 13 November 2026](img/pmp3-jira-board.png)
 
 | Epic | Planned for this point | Status (Done / In progress / Not started) |
 |---|---|---|
-| | | |
-| | | |
+| M1 – Login and roles | Walking skeleton (v0.0), seed data, JWT login API, login screen with role-based routing, CI with tests and build, README, first end-to-end test | In progress. Walking skeleton, seed and `v0.0` done. JWT login API (PR #9), CI (PR #12) and login screen (PR #13) in review. README update and Playwright test not started. |
+| M2 – Linking specialists | Link API with access control, linked specialists screen | In progress. Both in review: API (PR #10) and screen (PR #14). |
+| M3 – Weekly schedule | Events table and API, weekly schedule screen | Not started |
+| M4 – Tasks | Tasks table and API, task assignment screen, child's "My tasks" screen | Not started |
+| M5 – M8 | Planned for Sprint 3 | Not started, as planned |
+| SRS | First version (week 6) | First version done. Template fixes moved to Sprint 3. |
+| DESIGN | First version (week 6) | First version done. Final version due in week 10. |
+| PMP-1, PMP-2 | Project, team, work packages and sprint plan | Done |
+| PMP-3 | This section | In progress until this pull request is merged |
+
+**Sprint 2 in numbers:** 16 tasks: 5 in review, 2 in progress and 9 not started. Sprint 1 closed with 8 tasks done and 8 pull requests merged.
 
 **Changes to the plan (if any):**
+- **Demo date.** The live demo is on Monday 16 November, in the first class of week 8, not at the end of Sprint 2 (22 November). The due date of every v0.1 task is now 15 November.
+- **New tasks.** Sprint 2 got five new tasks:
+  - SCRUM-42: M1 login screen.
+  - SCRUM-43: M2 link API and access control.
+  - SCRUM-44: M2 linked specialists screen.
+  - SCRUM-45: PMP-3.
+  - SCRUM-46: the v0.1 release tag and demo rehearsal.
+
+  M1 now has 8 tasks instead of 7.
+- **Moved.** SCRUM-40 (SRS template fixes) moved to Sprint 3. It does not block the demo.
+- **Dependencies in Jira.** "Blocks" links show the order of the work. For example, the M3 and M4 APIs wait for the JWT login API and access control, and the M3 and M4 screens wait for the login screen.
+- **Review column in use.** A task moves to "In Review" when its pull request is open. GitHub for Jira shows each task's branch, commits, pull request and CI build. Pull requests that depend on each other are stacked (#9 → #10 → #13 → #14), so work did not wait for each review.
+
+**Risk:** M3 and M4 have not started two days before the demo. Their APIs need the JWT login API and access control, so reviewing PR #9 and PR #10 is the first step for both members.
 
 ---
 
