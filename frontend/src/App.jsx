@@ -10,8 +10,18 @@ import LoginPage from './pages/LoginPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ParentHome from './pages/ParentHome.jsx';
 import SpecialistHome from './pages/SpecialistHome.jsx';
+import WeeklySchedule from './pages/WeeklySchedule.jsx';
+import { useChild } from './pages/ChildLayout.jsx';
 
 const ADULTS = ['parent', 'specialist'];
+function AdultSchedule() {
+  const { child } = useChild();
+  return <WeeklySchedule childId={child.id} canCreate />;
+}
+function ChildSchedule() {
+  const { user } = useAuth();
+  return <WeeklySchedule childId={user.childId} canCreate={false} />;
+}
 
 // FR-M1-03: the same /children address shows the parent or specialist home.
 function ChildrenHome() {
@@ -59,11 +69,18 @@ export function AppRoutes() {
           }
         >
           <Route index element={<ChildOverview />} />
-          <Route path="schedule" element={<ComingSoon title="Haftalık takvim" task="SCRUM-34" />} />
+          <Route path="schedule" element={<AdultSchedule />} />          
           <Route path="tasks" element={<ComingSoon title="Görevler" task="SCRUM-36" />} />
           <Route path="specialists" element={<ComingSoon title="Bağlı uzmanlar" task="SCRUM-44" />} />
         </Route>
-
+         <Route
+           path="my-schedule"
+           element={
+              <RequireRole roles={['child']}>
+               <ChildSchedule />
+             </RequireRole>
+       }
+/>
         <Route
           path="my-tasks"
           element={
