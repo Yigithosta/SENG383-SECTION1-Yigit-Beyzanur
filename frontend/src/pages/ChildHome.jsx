@@ -1,5 +1,5 @@
 import { useAuth } from '../auth/AuthContext.jsx';
-import { ComingSoon } from '../components/ComingSoon.jsx';
+import MyTasksPage from './MyTasksPage.jsx';
 import { TEST_IDS } from '../testIds.js';
 
 // The child's home. SCRUM-37 adds MyTasksPage here: the child's tasks from
@@ -14,7 +14,7 @@ export default function ChildHome() {
         <h1>Görevlerim</h1>
         <p className="muted">Merhaba {firstName}, bu hafta yapman gerekenler burada.</p>
       </div>
-      <ComingSoon title="Görev listesi" task="SCRUM-37" />
+      <MyTasksPage childId={user.childId} />
     </div>
   );
 }
