@@ -1,4 +1,4 @@
-import { ListChecks, UsersThree } from '@phosphor-icons/react';
+import { CalendarBlank, ListChecks, UsersThree } from '@phosphor-icons/react';
 import { NavLink } from 'react-router';
 import { useAuth } from '../auth/AuthContext.jsx';
 
@@ -23,7 +23,10 @@ export function BrandMark() {
 const NAV = {
   parent: [{ to: '/children', label: 'Çocuklarım', Icon: UsersThree }],
   specialist: [{ to: '/children', label: 'Bağlı çocuklar', Icon: UsersThree }],
-  child: [{ to: '/my-tasks', label: 'Görevlerim', Icon: ListChecks }],
+  child: [
+  { to: '/my-tasks', label: 'Görevlerim', Icon: ListChecks },
+  { to: '/my-schedule', label: 'Haftalık Takvim', Icon: CalendarBlank },
+],
 };
 
 export function Sidebar() {

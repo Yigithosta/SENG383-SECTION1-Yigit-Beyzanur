@@ -707,3 +707,56 @@ li + li > .person,
     align-items: start;
   }
 }
+/* SCRUM-34: Weekly schedule */
+
+.schedule-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.schedule-day {
+  min-width: 0;
+  padding: var(--space-3);
+}
+
+.schedule-day h3 {
+  margin-bottom: var(--space-3);
+  text-transform: capitalize;
+}
+
+.schedule-event {
+  display: grid;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+  padding: var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--primary-soft);
+  color: var(--on-primary-soft);
+  overflow-wrap: anywhere;
+}
+
+.schedule-event span {
+  font-size: 0.875rem;
+}
+
+.schedule-form {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+@media (max-width: 64rem) {
+  .schedule-grid {
+    overflow-x: auto;
+    grid-template-columns: repeat(7, minmax(10rem, 1fr));
+  }
+}
