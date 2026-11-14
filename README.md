@@ -1,161 +1,223 @@
+
 # SENG383-SECTION1-G4
 
-AI-Assisted Child Development Platform
-SENG 383 – Software Project III Term Project (Fall 2026)
-A web-based decision support platform where parents and specialists share a schedule, task list, and observation records. An AI component summarizes records for each role. It supports decision-making but does not make decisions, diagnoses, or treatment recommendations.
+**AI-Assisted Child Development Platform**
 
-Tech Stack
-- Frontend: React (Vite) – planned
+SENG 383 – Software Project III Term Project (Fall 2026)
+
+A web-based decision support platform where parents and specialists share schedules, tasks, and observation records. AI-generated summaries support decision-making but do not provide diagnoses or treatment recommendations.
+
+## Tech Stack
+
+- Frontend: React, Vite
 - Backend: Node.js, Express
 - Database: SQLite
-- Testing: Jest, Supertest
+- Testing: Jest, Supertest, Vitest, Playwright
+- CI: GitHub Actions
 
-Prerequisites
-Before running the backend, install:
-- Node.js version 22.9.0 or later
-- npm (included with Node.js)
+## Prerequisites
+
+Install the following software:
+
+- Node.js 22.9.0 or later
+- npm
 - Git
 
-Check your installed versions:
+Verify the installation:
+
+```bash
 node --version
 npm --version
+git --version
+```
 
-Getting Started
-1. Clone the repository
+## Getting Started
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/Yigithosta/SENG383-SECTION1-Yigit-Beyzanur.git
 cd SENG383-SECTION1-Yigit-Beyzanur
+```
 
-2. Configure environment variables
-Move into the backend directory:
+### 2. Install Backend Dependencies
+
+```bash
 cd backend
-Copy the example environment file to .env if you want to customize the settings.
-macOS / Linux
-cp .env.example .env
+npm install
+```
 
-Windows PowerShell
+### 3. Configure Environment Variables
+
+The backend can start without a `.env` file. To customize its configuration, copy the example file.
+
+**Windows PowerShell:**
+
+```powershell
 Copy-Item .env.example .env
+```
+
+**macOS / Linux:**
+
+```bash
+cp .env.example .env
+```
 
 Available environment variables:
-VariableDescriptionDefaultPORTBackend server port3001DB_FILESQLite database file pathbackend/data/app.sqlite
-If DB_FILE is empty or not provided, the application uses its default database location.
-JWT_SECRET signs login tokens. Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. If it is empty, the server still starts with a temporary secret, but users have to log in again after every restart.
-Important: Never commit your .env file or real credentials to the repository.
 
-3. Install backend dependencies
-From the backend directory, run:
-npm install
+| Variable | Description | Default |
+|---|---|---|
+| `PORT` | Backend HTTP server port | `3001` |
+| `DB_FILE` | SQLite database file path | `backend/data/app.sqlite` |
+| `JWT_SECRET` | Secret used to sign authentication tokens | Random temporary secret |
 
-4. Run the tests
-npm test
-This runs the backend test suite using Jest.
+If `JWT_SECRET` is not configured, the backend creates a temporary secret on startup. Login sessions will not survive a server restart.
 
-5. Seed the database
+Generate a permanent secret using:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+Do not commit `.env` files or real credentials.
+
+### 4. Seed the Demo Database
+
+From the `backend` directory:
+
+```bash
 npm run seed
-This command creates the database schema if necessary and inserts synthetic demo data.
-Warning: Running the seed script deletes existing records from the child_specialists, children, and users tables before inserting the demo data. Do not run it against a database containing data you want to keep.
+```
 
-6. Start the backend server
-For development, run:
+This creates the database schema and inserts synthetic demo accounts.
+
+**Warning:** Seeding deletes existing demo-related records from the `child_specialists`, `children`, and `users` tables. Do not run it against a database containing information you want to preserve.
+
+### 5. Start the Backend
+
+From the `backend` directory:
+
+```bash
 npm run dev
-To start the server without watch mode, use:
-npm start
-The backend runs on port 3001 by default.
+```
 
-7. Check the API health
-With the backend running, open:
+The backend runs at:
+
+http://localhost:3001
+
+Check its health endpoint:
+
 http://localhost:3001/api/health
-A successful response should indicate that the API and database are available:
+
+Expected response:
+
+```json
 {
   "status": "ok",
   "database": "ok"
 }
-
-Demo Accounts
-The seed script creates the following synthetic demo accounts. All accounts use the same password:
-Password: Demo1234!
-
-Role Email Relationship:
-Parent    parent@demo.test        Parent account
-
-Child    child@demo.test    Child account
-
-Teacher    teacher@demo.test     Linked specialist
-
-Psychologist    psychologist@demo.test    Linked specialist
-
-Doctor      doctor@demo.test       Registered but not linked
-
-Available Backend Commands
-
-Run these commands from the backend directory.
-
-npm install            Installs backend dependencies
-
-npm test               Runs backend tests
-
-npm run seed           Inserts synthetic demo data
-
-npm run dev            Starts the development server with watch mode
-
-npm start              Starts the backend server
-
-
-SENG383-SECTION1-Yigit-Beyzanur/
-├── .github/
-│   └── workflows/
-│       └── ci.yml
-├── backend/
-│   ├── src/
-│   │   ├── db/
-│   │   │   ├── index.js
-│   │   │   ├── schema.sql
-│   │   │   └── seed.js
-│   │   ├── app.js
-│   │   └── server.js
-│   ├── tests/
-│   │   ├── health.test.js
-│   │   └── seed.test.js
-│   ├── .env.example
-│   ├── package.json
-│   └── package-lock.json
-├── docs/
-│   └── PMP.md
-├── .gitignore
-└── README.md
-
-
-## End-to-End (E2E) Testing with Playwright
-
-The project uses Playwright to test login and role-based navigation
-in a real Chromium browser.
-
-### Run E2E tests locally
-
-Install dependencies:
-
-```bash
-cd backend && npm install
-cd ../frontend && npm install
-cd ../e2e && npm install
-npx playwright install chromium
 ```
 
-Run the tests from the `e2e` directory:
+Keep this terminal running.
+
+### 6. Start the Frontend
+
+**Open a second terminal** while the backend continues running.
+
+From the repository root:
 
 ```bash
+cd frontend
+npm install
+npm run dev
+```
+
+Open the application:
+
+http://localhost:5173
+
+**Important:** The backend and frontend must run at the same time. Vite forwards frontend `/api` requests to the backend on port `3001`.
+
+### 7. Log In
+
+Use one of the demo accounts below.
+
+## Demo Accounts
+
+All demo accounts use the password `Demo1234!`.
+
+| Role | Email | Password | Notes |
+|---|---|---|---|
+| Parent | `parent@demo.test` | `Demo1234!` | Parent account |
+| Child | `child@demo.test` | `Demo1234!` | Child account |
+| Teacher | `teacher@demo.test` | `Demo1234!` | Linked specialist |
+| Psychologist | `psychologist@demo.test` | `Demo1234!` | Linked specialist |
+| Doctor | `doctor@demo.test` | `Demo1234!` | Unlinked specialist (bağlı olmayan uzman) |
+
+These accounts contain synthetic data for development and demonstration only.
+
+## Running Tests
+
+### Backend Tests
+
+From the repository root:
+
+```bash
+cd backend
+npm install
+npm test
+```
+
+Backend tests use Jest and Supertest.
+
+### Frontend Tests
+
+From the repository root:
+
+```bash
+cd frontend
+npm install
+npm test
+```
+
+Frontend tests use Vitest.
+
+### End-to-End Tests
+
+From the repository root:
+
+```bash
+cd backend
+npm install
+cd ../frontend
+npm install
+cd ../e2e
+npm install
+npx playwright install chromium
 npm run test:e2e
 ```
 
-Playwright automatically:
-- Creates a temporary SQLite database.
-- Seeds the database with synthetic demo accounts.
-- Starts the backend on port 3001.
-- Starts the frontend on port 5173.
-- Runs three Chromium login tests.
+Playwright runs three login tests in Chromium:
 
-The tests do not modify the normal development database.
+1. Successful parent login.
+2. Incorrect password handling.
+3. Child login and role-based navigation.
 
-### Continuous Integration
+The E2E runner automatically creates a temporary SQLite database, seeds demo users, and starts both servers.
 
-GitHub Actions runs the E2E tests for pull requests targeting `main`.
-If a test fails, the Playwright HTML report is uploaded as an artifact.
+**Note:** E2E tests require the SCRUM-38 Playwright implementation.
+
+## Continuous Integration
+
+GitHub Actions runs automated checks for pull requests targeting `main`.
+
+The CI workflow installs project dependencies, runs the configured tests, and builds the frontend.
+
+The Playwright E2E workflow also installs Chromium and uploads a Playwright HTML report if its tests fail.
+
+## Development Notes
+
+- Use synthetic data only for development and testing.
+- Never commit `.env` files, credentials, or private information.
+- Keep changes in feature branches and submit them through pull requests.
+- Follow the project's Jira task and GitHub workflow conventions.
