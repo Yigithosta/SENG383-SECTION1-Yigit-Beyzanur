@@ -4,6 +4,7 @@ const { createRequireAuth } = require('./middleware/requireAuth');
 const { createRequireChildAccess } = require('./middleware/requireChildAccess');
 const { createChildrenListRouter, createChildProfileRouter } = require('./routes/children');
 const { createSpecialistsRouter } = require('./routes/specialists');
+const { createEventsRouter } = require('./routes/events');
 const { sendError } = require('./errors');
 
 // jwtSecret is passed in (not read from process.env here) so tests can use
@@ -36,6 +37,7 @@ function createApp({ db, jwtSecret }) {
   // and narrow each route with allowRelations(...) from the SDD access table.
   const childScope = express.Router({ mergeParams: true });
   childScope.use('/specialists', createSpecialistsRouter({ db }));
+  childScope.use('/events', createEventsRouter({ db }));
   childScope.use('/', createChildProfileRouter());
   app.use('/api/children/:childId', requireAuth, createRequireChildAccess({ db }), childScope);
 
