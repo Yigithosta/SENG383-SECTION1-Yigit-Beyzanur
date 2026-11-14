@@ -122,9 +122,40 @@ SENG383-SECTION1-Yigit-Beyzanur/
 │   └── PMP.md
 ├── .gitignore
 └── README.md
-Development Notes
-- Use synthetic data only for development and testing.
-- Do not commit .env files, credentials, or private data.
-- Keep changes in feature branches and submit them through pull requests.
-- Follow the project's Jira task and GitHub workflow conventions.
- 
+
+
+## End-to-End (E2E) Testing with Playwright
+
+The project uses Playwright to test login and role-based navigation
+in a real Chromium browser.
+
+### Run E2E tests locally
+
+Install dependencies:
+
+```bash
+cd backend && npm install
+cd ../frontend && npm install
+cd ../e2e && npm install
+npx playwright install chromium
+```
+
+Run the tests from the `e2e` directory:
+
+```bash
+npm run test:e2e
+```
+
+Playwright automatically:
+- Creates a temporary SQLite database.
+- Seeds the database with synthetic demo accounts.
+- Starts the backend on port 3001.
+- Starts the frontend on port 5173.
+- Runs three Chromium login tests.
+
+The tests do not modify the normal development database.
+
+### Continuous Integration
+
+GitHub Actions runs the E2E tests for pull requests targeting `main`.
+If a test fails, the Playwright HTML report is uploaded as an artifact.
