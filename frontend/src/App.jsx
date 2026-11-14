@@ -12,6 +12,7 @@ import ParentHome from './pages/ParentHome.jsx';
 import SpecialistHome from './pages/SpecialistHome.jsx';
 import WeeklySchedule from './pages/WeeklySchedule.jsx';
 import { useChild } from './pages/ChildLayout.jsx';
+import AssignedTasksPage from './pages/AssignedTasksPage.jsx';
 
 const ADULTS = ['parent', 'specialist'];
 function AdultSchedule() {
@@ -69,8 +70,8 @@ export function AppRoutes() {
           }
         >
           <Route index element={<ChildOverview />} />
-          <Route path="schedule" element={<AdultSchedule />} />          
-          <Route path="tasks" element={<ComingSoon title="Görevler" task="SCRUM-36" />} />
+          <Route path="schedule" element={<AdultSchedule />} />
+          <Route path="tasks" element={<AssignedTasksPage />} />
           <Route path="specialists" element={<ComingSoon title="Bağlı uzmanlar" task="SCRUM-44" />} />
         </Route>
          <Route
