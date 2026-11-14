@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ParentHome from './pages/ParentHome.jsx';
 import SpecialistHome from './pages/SpecialistHome.jsx';
+import AssignedTasksPage from './pages/AssignedTasksPage.jsx';
 
 const ADULTS = ['parent', 'specialist'];
 
@@ -60,8 +61,7 @@ export function AppRoutes() {
         >
           <Route index element={<ChildOverview />} />
           <Route path="schedule" element={<ComingSoon title="Haftalık takvim" task="SCRUM-34" />} />
-          <Route path="tasks" element={<ComingSoon title="Görevler" task="SCRUM-36" />} />
-          <Route path="specialists" element={<ComingSoon title="Bağlı uzmanlar" task="SCRUM-44" />} />
+          <Route path="tasks" element={<AssignedTasksPage />} />            <Route path="specialists" element={<ComingSoon title="Bağlı uzmanlar" task="SCRUM-44" />} />
         </Route>
 
         <Route
