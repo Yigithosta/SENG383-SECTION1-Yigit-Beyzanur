@@ -3,6 +3,7 @@ const { createAuthRouter } = require('./routes/auth');
 const { createRequireAuth } = require('./middleware/requireAuth');
 const { createRequireChildAccess } = require('./middleware/requireChildAccess');
 const { createChildrenListRouter, createChildProfileRouter } = require('./routes/children');
+const { createTasksRouter } = require('./routes/tasks');
 const { createSpecialistsRouter } = require('./routes/specialists');
 const { createEventsRouter } = require('./routes/events');
 const { sendError } = require('./errors');
@@ -38,6 +39,7 @@ function createApp({ db, jwtSecret }) {
   const childScope = express.Router({ mergeParams: true });
   childScope.use('/specialists', createSpecialistsRouter({ db }));
   childScope.use('/events', createEventsRouter({ db }));
+  childScope.use('/tasks', createTasksRouter({ db }));
   childScope.use('/', createChildProfileRouter());
   app.use('/api/children/:childId', requireAuth, createRequireChildAccess({ db }), childScope);
 

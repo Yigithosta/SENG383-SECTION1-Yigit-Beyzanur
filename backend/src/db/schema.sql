@@ -39,3 +39,18 @@ CREATE TABLE IF NOT EXISTS events (
   ends_at    TEXT    NOT NULL,
   created_at TEXT    NOT NULL DEFAULT (datetime('now'))
 );
+
+-- M4: tasks assigned to a child by a parent or linked specialist.
+CREATE TABLE IF NOT EXISTS tasks (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  child_id     INTEGER NOT NULL REFERENCES children(id) ON DELETE CASCADE,
+  assigned_by  INTEGER NOT NULL REFERENCES users(id),
+  title        TEXT NOT NULL,
+  description  TEXT NOT NULL,
+  area         TEXT NOT NULL CHECK (
+    area IN ('language', 'motor', 'cognitive', 'social_emotional', 'self_care')
+  ),
+  due_date     TEXT NOT NULL,
+  completed_at TEXT DEFAULT NULL,
+  created_at   TEXT NOT NULL DEFAULT (datetime('now'))
+);
