@@ -1,48 +1,90 @@
-import { CareTeam } from './components/CareTeam.jsx';
-import { ChildHero } from './components/ChildHero.jsx';
-import { Sidebar } from './components/Sidebar.jsx';
-import { DashboardSkeleton, EmptyState, ErrorState } from './components/States.jsx';
-import { SystemStatus } from './components/SystemStatus.jsx';
-import { TopBar } from './components/TopBar.jsx';
-import { useDemoData } from './useDemoData.js';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { AuthProvider, useAuth } from './auth/AuthContext.jsx';
+import { HomeRedirect, RequireAuth, RequireRole } from './auth/guards.jsx';
+import { AppShell } from './components/AppShell.jsx';
+import { ComingSoon } from './components/ComingSoon.jsx';
+import ChildHome from './pages/ChildHome.jsx';
+import ChildLayout from './pages/ChildLayout.jsx';
+import ChildOverview from './pages/ChildOverview.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
+import ParentHome from './pages/ParentHome.jsx';
+import SpecialistHome from './pages/SpecialistHome.jsx';
+import AssignedTasksPage from './pages/AssignedTasksPage.jsx';
+
+const ADULTS = ['parent', 'specialist'];
+
+// FR-M1-03: the same /children address shows the parent or specialist home.
+function ChildrenHome() {
+  const { user } = useAuth();
+  return user.role === 'parent' ? <ParentHome /> : <SpecialistHome />;
+}
+
+// Routes:
+//   /login                          LoginPage
+//   /children                       ParentHome or SpecialistHome
+//   /children/:childId              child profile, with tabs:
+//     schedule                      M3 weekly schedule (SCRUM-34)
+//     tasks                         M4 assign and list tasks (SCRUM-36)
+//     specialists                   M2 linked specialists (SCRUM-44)
+//   /my-tasks                       ChildHome, the child's tasks (SCRUM-37)
+export function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+
+      <Route
+        element={
+          <RequireAuth>
+            <AppShell />
+          </RequireAuth>
+        }
+      >
+        <Route index element={<HomeRedirect />} />
+
+        <Route
+          path="children"
+          element={
+            <RequireRole roles={ADULTS}>
+              <ChildrenHome />
+            </RequireRole>
+          }
+        />
+
+        <Route
+          path="children/:childId"
+          element={
+            <RequireRole roles={ADULTS}>
+              <ChildLayout />
+            </RequireRole>
+          }
+        >
+          <Route index element={<ChildOverview />} />
+          <Route path="schedule" element={<ComingSoon title="Haftalık takvim" task="SCRUM-34" />} />
+          <Route path="tasks" element={<AssignedTasksPage />} />            <Route path="specialists" element={<ComingSoon title="Bağlı uzmanlar" task="SCRUM-44" />} />
+        </Route>
+
+        <Route
+          path="my-tasks"
+          element={
+            <RequireRole roles={['child']}>
+              <ChildHome />
+            </RequireRole>
+          }
+        />
+
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
+  );
+}
 
 export default function App() {
-  const { data, error, loading, reload } = useDemoData();
-  const summary = data?.summary;
-  const children = summary?.children ?? [];
-
   return (
-    <div className="app">
-      <a className="skip-link" href="#main">
-        İçeriğe geç
-      </a>
-      <Sidebar />
-
-      <div className="app-body">
-        <TopBar loading={loading} failed={Boolean(error)} onReload={reload} />
-
-        <main id="main" className="content">
-          {error && <ErrorState onRetry={reload} />}
-          {!data && !error && <DashboardSkeleton />}
-
-          {data && children.length === 0 && <EmptyState />}
-
-          {data &&
-            children.map((child) => (
-              <div key={child.name} className="content-stack">
-                <ChildHero child={child} users={summary.users} />
-                <div className="content-columns">
-                  <CareTeam child={child} />
-                  <SystemStatus health={data.health} />
-                </div>
-              </div>
-            ))}
-
-          <p className="content-note">
-            Tüm veriler sentetiktir. Giriş ekranı ve rol bazlı sayfalar M1 ile eklenecek.
-          </p>
-        </main>
-      </div>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

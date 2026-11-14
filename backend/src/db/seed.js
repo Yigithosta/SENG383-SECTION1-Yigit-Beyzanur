@@ -25,10 +25,15 @@ function seed(db) {
   const linkSpecialist = db.prepare(
     'INSERT INTO child_specialists (child_id, specialist_id) VALUES (?, ?)'
   );
+  const insertTask = db.prepare(`
+  INSERT INTO tasks
+    (child_id, assigned_by, title, description, area, due_date, completed_at)
+  VALUES (?, ?, ?, ?, ?, ?, ?)
+`);
 
   const run = db.transaction(() => {
     db.exec('DELETE FROM child_specialists; DELETE FROM children; DELETE FROM users;');
-
+    db.exec('DELETE FROM tasks; DELETE FROM child_specialists; DELETE FROM children; DELETE FROM users;');
     const ids = {};
     for (const u of USERS) {
       // Hashed once per account, so each account gets its own salt and hash.
@@ -39,6 +44,69 @@ function seed(db) {
     const childId = insertChild.run(ids.parent, ids.child, 'Ege Örnek', '2018-04-12').lastInsertRowid;
     linkSpecialist.run(childId, ids.teacher);
     linkSpecialist.run(childId, ids.psychologist);
+
+    const demoTasks = [
+  {
+    assignedBy: ids.parent,
+    title: 'Hikaye anlatma',
+    description: 'Resimlere bakarak kısa bir hikaye anlat.',
+    area: 'language',
+    dueDate: '2026-11-16',
+    completedAt: null,
+  },
+  {
+    assignedBy: ids.teacher,
+    title: 'Şekilleri eşleştirme',
+    description: 'Benzer şekilleri doğru kutularla eşleştir.',
+    area: 'cognitive',
+    dueDate: '2026-11-17',
+    completedAt: null,
+  },
+  {
+    assignedBy: ids.parent,
+    title: 'Düğme ilikleme',
+    description: 'Gömlekteki üç düğmeyi ilikle.',
+    area: 'motor',
+    dueDate: '2026-11-18',
+    completedAt: null,
+  },
+  {
+    assignedBy: ids.psychologist,
+    title: 'Duyguları tanıma',
+    description: 'Resimlerdeki kişilerin duygularını söyle.',
+    area: 'social_emotional',
+    dueDate: '2026-11-19',
+    completedAt: '2026-11-13 10:30:00',
+  },
+  {
+    assignedBy: ids.parent,
+    title: 'El yıkama',
+    description: 'Yemekten önce ellerini sabunla yıka.',
+    area: 'self_care',
+    dueDate: '2026-11-20',
+    completedAt: '2026-11-13 11:00:00',
+  },
+  {
+    assignedBy: ids.teacher,
+    title: 'Kelime çalışması',
+    description: 'Beş yeni kelime öğren ve cümlede kullan.',
+    area: 'language',
+    dueDate: '2026-11-21',
+    completedAt: '2026-11-13 12:00:00',
+  },
+];
+
+for (const task of demoTasks) {
+  insertTask.run(
+    childId,
+    task.assignedBy,
+    task.title,
+    task.description,
+    task.area,
+    task.dueDate,
+    task.completedAt
+  );
+}
   });
 
   run();
