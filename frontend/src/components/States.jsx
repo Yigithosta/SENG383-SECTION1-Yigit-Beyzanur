@@ -1,17 +1,15 @@
-import { Database, PlugsConnected } from '@phosphor-icons/react';
+import { CircleNotch, LockKey, PlugsConnected, WarningCircle } from '@phosphor-icons/react';
 
-export function DashboardSkeleton() {
+export function PageLoading({ label = 'Yükleniyor' }) {
   return (
-    <div className="content-stack" aria-busy="true" aria-label="Veriler yükleniyor">
-      <div className="skeleton skeleton-hero" />
-      <div className="content-columns">
-        <div className="skeleton skeleton-card" />
-        <div className="skeleton skeleton-card" />
-      </div>
+    <div className="loading" role="status">
+      <CircleNotch size={20} weight="bold" aria-hidden="true" />
+      {label}
     </div>
   );
 }
 
+// Backend unreachable: the request never got an answer.
 export function ErrorState({ onRetry }) {
   return (
     <section className="state state-error" role="alert">
@@ -22,23 +20,45 @@ export function ErrorState({ onRetry }) {
           <code>backend</code> klasöründe <code>npm run dev</code> komutunun çalıştığından emin olun.
         </p>
       </div>
-      <button type="button" className="button button-primary" onClick={onRetry}>
-        Tekrar dene
-      </button>
+      {onRetry && (
+        <button type="button" className="button button-primary" onClick={onRetry}>
+          Tekrar dene
+        </button>
+      )}
     </section>
   );
 }
 
-export function EmptyState() {
+/**
+ * Shows any error from apiFetch. A network error gets the "backend is down"
+ * panel; an answer from the API (403, 404, …) shows its own message.
+ */
+export function ApiErrorState({ error, onRetry }) {
+  if (!error?.status) {
+    return <ErrorState onRetry={onRetry} />;
+  }
+
+  const Icon = error.status === 403 ? LockKey : WarningCircle;
+  const TITLES = { 403: 'Erişim izniniz yok', 404: 'Kayıt bulunamadı' };
+  const title = TITLES[error.status] ?? 'İşlem tamamlanamadı';
+
   return (
-    <section className="state" aria-labelledby="empty-title">
-      <Database size={32} aria-hidden="true" />
+    <section className="state state-error" role="alert">
+      <Icon size={32} aria-hidden="true" />
       <div>
-        <h2 id="empty-title">Veritabanında kayıt yok</h2>
-        <p>
-          Demo verisi için <code>backend</code> klasöründe <code>npm run seed</code> komutunu
-          çalıştırıp <strong>Yenile</strong>'ye basın.
-        </p>
+        <h2>{title}</h2>
+        <p>{error.message}</p>
+      </div>
+    </section>
+  );
+}
+
+export function EmptyState({ title, children }) {
+  return (
+    <section className="state">
+      <div>
+        <h2>{title}</h2>
+        <p>{children}</p>
       </div>
     </section>
   );
