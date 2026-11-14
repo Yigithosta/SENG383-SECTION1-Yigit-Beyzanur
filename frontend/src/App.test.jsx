@@ -103,8 +103,8 @@ describe('role-based screens (FR-M1-03)', () => {
 
     await userEvent.click(within(tabs).getByRole('link', { name: 'Görevler' }));
     expect(window.location.pathname).toBe('/children/1/tasks');
-    expect(screen.getByText('Bu ekran SCRUM-36 ile eklenecek.')).toBeInTheDocument();
-  });
+    expect(screen.getByRole('heading', { name: 'Yeni Görev Ata' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Atanan Görevler' })).toBeInTheDocument();});
 
   it('shows the API message when a specialist opens a child they are not linked to', async () => {
     installFakeBackend();
