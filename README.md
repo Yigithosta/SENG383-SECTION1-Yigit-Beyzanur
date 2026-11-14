@@ -38,6 +38,7 @@ Copy-Item .env.example .env
 Available environment variables:
 VariableDescriptionDefaultPORTBackend server port3001DB_FILESQLite database file pathbackend/data/app.sqlite
 If DB_FILE is empty or not provided, the application uses its default database location.
+JWT_SECRET signs login tokens. Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. If it is empty, the server still starts with a temporary secret, but users have to log in again after every restart.
 Important: Never commit your .env file or real credentials to the repository.
 
 3. Install backend dependencies

@@ -15,8 +15,6 @@ const USERS = [
 ];
 
 function seed(db) {
-  const passwordHash = bcrypt.hashSync(DEMO_PASSWORD, 10);
-
   const insertUser = db.prepare(
     `INSERT INTO users (name, email, password_hash, role, specialist_type)
      VALUES (?, ?, ?, ?, ?)`
@@ -33,6 +31,8 @@ function seed(db) {
 
     const ids = {};
     for (const u of USERS) {
+      // Hashed once per account, so each account gets its own salt and hash.
+      const passwordHash = bcrypt.hashSync(DEMO_PASSWORD, 10);
       ids[u.key] = insertUser.run(u.name, u.email, passwordHash, u.role, u.specialistType || null).lastInsertRowid;
     }
 
