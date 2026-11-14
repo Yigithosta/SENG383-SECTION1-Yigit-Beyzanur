@@ -25,6 +25,10 @@ function seed(db) {
   const linkSpecialist = db.prepare(
     'INSERT INTO child_specialists (child_id, specialist_id) VALUES (?, ?)'
   );
+  const insertEvent = db.prepare(
+  `INSERT INTO events (child_id, created_by, title, starts_at, ends_at)
+   VALUES (?, ?, ?, ?, ?)`
+);
   const insertTask = db.prepare(`
   INSERT INTO tasks
     (child_id, assigned_by, title, description, area, due_date, completed_at)
@@ -32,8 +36,7 @@ function seed(db) {
 `);
 
   const run = db.transaction(() => {
-    db.exec('DELETE FROM child_specialists; DELETE FROM children; DELETE FROM users;');
-    db.exec('DELETE FROM tasks; DELETE FROM child_specialists; DELETE FROM children; DELETE FROM users;');
+    db.exec('DELETE FROM tasks; DELETE FROM events; DELETE FROM child_specialists; DELETE FROM children; DELETE FROM users;');
     const ids = {};
     for (const u of USERS) {
       // Hashed once per account, so each account gets its own salt and hash.
@@ -44,6 +47,11 @@ function seed(db) {
     const childId = insertChild.run(ids.parent, ids.child, 'Ege Örnek', '2018-04-12').lastInsertRowid;
     linkSpecialist.run(childId, ids.teacher);
     linkSpecialist.run(childId, ids.psychologist);
+    // M3: demo events for the week of 2026-11-16.
+    insertEvent.run(childId, ids.parent, 'Weekly planning', '2026-11-16T09:00', '2026-11-16T09:30');
+    insertEvent.run(childId, ids.teacher, 'Learning session', '2026-11-17T10:00', '2026-11-17T11:00');
+    insertEvent.run(childId, ids.psychologist, 'Psychology session', '2026-11-19T14:00', '2026-11-19T15:00');
+    insertEvent.run(childId, ids.parent, 'Family activity', '2026-11-21T11:00', '2026-11-21T12:00');
 
     const demoTasks = [
   {
