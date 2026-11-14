@@ -1,4 +1,6 @@
-import { SquaresFour } from '@phosphor-icons/react';
+import { ListChecks, UsersThree } from '@phosphor-icons/react';
+import { NavLink } from 'react-router';
+import { useAuth } from '../auth/AuthContext.jsx';
 
 export function BrandMark() {
   return (
@@ -16,25 +18,38 @@ export function BrandMark() {
   );
 }
 
+// Menu entries per role. Child-specific screens (schedule, tasks,
+// specialists) are tabs on the child page, see pages/ChildLayout.jsx.
+const NAV = {
+  parent: [{ to: '/children', label: 'Çocuklarım', Icon: UsersThree }],
+  specialist: [{ to: '/children', label: 'Bağlı çocuklar', Icon: UsersThree }],
+  child: [{ to: '/my-tasks', label: 'Görevlerim', Icon: ListChecks }],
+};
+
 export function Sidebar() {
+  const { user } = useAuth();
+
   return (
     <aside className="sidebar">
       <div className="brand">
         <BrandMark />
+        <span className="brand-name">Gelişim Takibi</span>
       </div>
 
       <nav aria-label="Ana menü">
         <ul className="nav-list">
-          <li>
-            <a className="nav-item is-active" href="#main" aria-current="page">
-              <SquaresFour size={20} aria-hidden="true" />
-              Genel bakış
-            </a>
-          </li>
+          {(NAV[user.role] ?? []).map(({ to, label, Icon }) => (
+            <li key={to}>
+              <NavLink className={({ isActive }) => `nav-item${isActive ? ' is-active' : ''}`} to={to}>
+                <Icon size={20} aria-hidden="true" />
+                {label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
 
-      <p className="sidebar-foot">SENG 383 · Walking skeleton</p>
+      <p className="sidebar-foot">SENG 383 · Tüm veriler sentetiktir</p>
     </aside>
   );
 }

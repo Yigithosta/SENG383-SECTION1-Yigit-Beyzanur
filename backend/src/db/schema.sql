@@ -29,3 +29,13 @@ CREATE TABLE IF NOT EXISTS child_specialists (
   linked_at     TEXT    NOT NULL DEFAULT (datetime('now')),
   PRIMARY KEY (child_id, specialist_id)
 );
+-- M3: weekly schedule events for a child. Dates are local time, YYYY-MM-DDTHH:MM.
+CREATE TABLE IF NOT EXISTS events (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  child_id   INTEGER NOT NULL REFERENCES children(id) ON DELETE CASCADE,
+  created_by INTEGER NOT NULL REFERENCES users(id),
+  title      TEXT    NOT NULL,
+  starts_at  TEXT    NOT NULL,
+  ends_at    TEXT    NOT NULL,
+  created_at TEXT    NOT NULL DEFAULT (datetime('now'))
+);

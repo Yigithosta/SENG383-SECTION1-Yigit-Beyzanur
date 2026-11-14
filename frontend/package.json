@@ -17,7 +17,8 @@
     "@fontsource/atkinson-hyperlegible": "^5.3.0",
     "@phosphor-icons/react": "^2.1.10",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "react-router": "^7.18.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^7.0.1",

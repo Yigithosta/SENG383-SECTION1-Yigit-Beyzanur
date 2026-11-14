@@ -190,10 +190,10 @@ All endpoints are under `/api`, accept and return JSON (except file upload and d
 | Method | Endpoint | Description | Module |
 |---|---|---|---|
 | GET | `/api/health` | API and database status (exists) | — |
-| GET | `/api/demo/summary` | Temporary walking-skeleton data, removed once M1–M2 are done (exists) | — |
 | POST | `/api/auth/login` | Log in with email and password, returns a JWT and the user's role | M1 |
 | GET | `/api/auth/me` | The logged-in user | M1 |
 | GET | `/api/children` | Children the user may access | M1, M2 |
+| GET | `/api/children/:childId` | Child profile and the caller's relation (`parent`, `specialist`, `self`) | M1, M2 |
 | GET | `/api/children/:childId/specialists` | Linked specialists | M2 |
 | POST | `/api/children/:childId/specialists` | Link a registered specialist by email (parent only) | M2 |
 | DELETE | `/api/children/:childId/specialists/:specialistId` | Unlink a specialist (parent only) | M2 |
