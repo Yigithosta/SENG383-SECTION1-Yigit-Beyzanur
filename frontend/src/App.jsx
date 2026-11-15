@@ -2,15 +2,16 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import { AuthProvider, useAuth } from './auth/AuthContext.jsx';
 import { HomeRedirect, RequireAuth, RequireRole } from './auth/guards.jsx';
 import { AppShell } from './components/AppShell.jsx';
-import { ComingSoon } from './components/ComingSoon.jsx';
+import AssignedTasksPage from './pages/AssignedTasksPage.jsx';
 import ChildHome from './pages/ChildHome.jsx';
-import ChildLayout from './pages/ChildLayout.jsx';
+import ChildLayout, { useChild } from './pages/ChildLayout.jsx';
 import ChildOverview from './pages/ChildOverview.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import ParentHome from './pages/ParentHome.jsx';
 import SpecialistHome from './pages/SpecialistHome.jsx';
 import SpecialistsPage from './pages/SpecialistsPage.jsx';
+import WeeklySchedule from './pages/WeeklySchedule.jsx';
 
 const ADULTS = ['parent', 'specialist'];
 
@@ -20,14 +21,26 @@ function ChildrenHome() {
   return user.role === 'parent' ? <ParentHome /> : <SpecialistHome />;
 }
 
+// M3: parents and linked specialists add events; the child only reads them.
+function AdultSchedule() {
+  const { child } = useChild();
+  return <WeeklySchedule childId={child.id} canCreate />;
+}
+
+function ChildSchedule() {
+  const { user } = useAuth();
+  return <WeeklySchedule childId={user.childId} canCreate={false} />;
+}
+
 // Routes:
 //   /login                          LoginPage
 //   /children                       ParentHome or SpecialistHome
 //   /children/:childId              child profile, with tabs:
-//     schedule                      M3 weekly schedule (SCRUM-34)
-//     tasks                         M4 assign and list tasks (SCRUM-36)
+//     schedule                      M3 WeeklySchedule
+//     tasks                         M4 AssignedTasksPage
 //     specialists                   M2 SpecialistsPage
-//   /my-tasks                       ChildHome, the child's tasks (SCRUM-37)
+//   /my-tasks                       ChildHome with MyTasksPage (child only)
+//   /my-schedule                    M3 WeeklySchedule, read only (child only)
 export function AppRoutes() {
   return (
     <Routes>
@@ -60,8 +73,8 @@ export function AppRoutes() {
           }
         >
           <Route index element={<ChildOverview />} />
-          <Route path="schedule" element={<ComingSoon title="Haftalık takvim" task="SCRUM-34" />} />
-          <Route path="tasks" element={<ComingSoon title="Görevler" task="SCRUM-36" />} />
+          <Route path="schedule" element={<AdultSchedule />} />
+          <Route path="tasks" element={<AssignedTasksPage />} />
           <Route path="specialists" element={<SpecialistsPage />} />
         </Route>
 
@@ -70,6 +83,15 @@ export function AppRoutes() {
           element={
             <RequireRole roles={['child']}>
               <ChildHome />
+            </RequireRole>
+          }
+        />
+
+        <Route
+          path="my-schedule"
+          element={
+            <RequireRole roles={['child']}>
+              <ChildSchedule />
             </RequireRole>
           }
         />
