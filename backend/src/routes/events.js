@@ -72,7 +72,7 @@ function createEventsRouter({ db }) {
           res,
           400,
           'VALIDATION_ERROR',
-          'week must be a valid Monday in YYYY-MM-DD format.'
+          'Hafta, YYYY-AA-GG biçiminde bir pazartesi tarihi olmalıdır.'
         );
       }
 
@@ -112,7 +112,7 @@ function createEventsRouter({ db }) {
           res,
           400,
           'VALIDATION_ERROR',
-          'title is required.'
+          'Etkinlik başlığı zorunludur.'
         );
       }
 
@@ -122,7 +122,7 @@ function createEventsRouter({ db }) {
           res,
           400,
           'VALIDATION_ERROR',
-          'startsAt and endsAt must use YYYY-MM-DDTHH:MM.'
+          'Başlangıç ve bitiş için geçerli bir tarih ve saat girin.'
         );
       }
 
@@ -131,7 +131,7 @@ function createEventsRouter({ db }) {
           res,
           400,
           'VALIDATION_ERROR',
-          'endsAt cannot be earlier than startsAt.'
+          'Bitiş zamanı başlangıçtan önce olamaz.'
         );
       }
 

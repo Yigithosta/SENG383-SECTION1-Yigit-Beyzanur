@@ -127,6 +127,8 @@ describe('M3 weekly events API', () => {
 
     expect(res.status).toBe(400);
     expect(res.body.error.code).toBe('VALIDATION_ERROR');
+    // The client shows this message as it is, so it is in Turkish like the rest of the API.
+    expect(res.body.error.message).toBe('Bitiş zamanı başlangıçtan önce olamaz.');
   });
 
   it('requires authentication', async () => {
