@@ -1,7 +1,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { apiFetch } from '../api/client.js';
-import { getWeekMonday, getWeekDays, shiftWeek } from '../scheduleDates.js';
+import { formatWeekRange, getWeekMonday, getWeekDays, shiftWeek } from '../scheduleDates.js';
 
 export default function WeeklySchedule({ childId, canCreate = false }) {
   const [week, setWeek] = useState(() => getWeekMonday());
@@ -98,7 +98,7 @@ export default function WeeklySchedule({ childId, canCreate = false }) {
           Önceki hafta
         </button>
 
-        <strong>{days[0].date} – {days[6].date}</strong>
+        <strong className="schedule-week">{formatWeekRange(days[0].date, days[6].date)}</strong>
 
         <button
           className="button"

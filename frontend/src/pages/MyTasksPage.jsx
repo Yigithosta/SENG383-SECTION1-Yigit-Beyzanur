@@ -1,3 +1,4 @@
+import { CheckCircle } from '@phosphor-icons/react';
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../api/client.js';
 
@@ -99,7 +100,7 @@ export default function MyTasksPage({ childId }) {
       )}
 
       {!loading && !error && sortedTasks.length === 0 && (
-        <p className="card">Henüz görevin yok.</p>
+        <p className="card card-body muted">Henüz görevin yok.</p>
       )}
 
       {!loading && sortedTasks.length > 0 && (
@@ -120,7 +121,8 @@ export default function MyTasksPage({ childId }) {
 
               {task.status === 'completed' ? (
                 <p className="task-completed">
-                  ✓ Tamamlandı
+                  <CheckCircle size={18} weight="fill" aria-hidden="true" />
+                  Tamamlandı
                 </p>
               ) : (
                 <button

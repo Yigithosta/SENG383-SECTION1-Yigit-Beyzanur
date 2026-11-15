@@ -10,7 +10,7 @@ export function TopBar() {
 
   return (
     <header className="topbar">
-      <Link className="topbar-title" to="/">
+      <Link className="brand" to="/">
         <BrandMark />
         <span className="brand-name">Gelişim Takibi</span>
       </Link>
@@ -31,7 +31,7 @@ export function TopBar() {
           onClick={logout}
           data-testid={TEST_IDS.logoutButton}
         >
-          <SignOut size={16} weight="bold" aria-hidden="true" />
+          <SignOut size={16} aria-hidden="true" />
           Çıkış yap
         </button>
       </div>

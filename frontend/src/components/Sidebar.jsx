@@ -1,16 +1,16 @@
 import { CalendarBlank, ListChecks, UsersThree } from '@phosphor-icons/react';
-import { NavLink } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import { useAuth } from '../auth/AuthContext.jsx';
 
 export function BrandMark() {
   return (
     <svg className="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
-      <rect width="32" height="32" rx="8" fill="currentColor" />
-      <circle cx="16" cy="10.5" r="3.5" fill="var(--brand-mark-ink)" />
+      <rect width="32" height="32" rx="7" fill="currentColor" />
+      <circle cx="16" cy="11" r="3.5" fill="var(--on-primary)" />
       <path
-        d="M7.5 25c0-5 3.8-8.5 8.5-8.5s8.5 3.5 8.5 8.5"
+        d="M8.5 24.5c0-4.6 3.4-7.8 7.5-7.8s7.5 3.2 7.5 7.8"
         fill="none"
-        stroke="var(--brand-mark-ink)"
+        stroke="var(--on-primary)"
         strokeWidth="3"
         strokeLinecap="round"
       />
@@ -24,9 +24,9 @@ const NAV = {
   parent: [{ to: '/children', label: 'Çocuklarım', Icon: UsersThree }],
   specialist: [{ to: '/children', label: 'Bağlı çocuklar', Icon: UsersThree }],
   child: [
-  { to: '/my-tasks', label: 'Görevlerim', Icon: ListChecks },
-  { to: '/my-schedule', label: 'Haftalık Takvim', Icon: CalendarBlank },
-],
+    { to: '/my-tasks', label: 'Görevlerim', Icon: ListChecks },
+    { to: '/my-schedule', label: 'Haftalık takvim', Icon: CalendarBlank },
+  ],
 };
 
 export function Sidebar() {
@@ -34,10 +34,10 @@ export function Sidebar() {
 
   return (
     <aside className="sidebar">
-      <div className="brand">
+      <Link className="brand" to="/">
         <BrandMark />
         <span className="brand-name">Gelişim Takibi</span>
-      </div>
+      </Link>
 
       <nav aria-label="Ana menü">
         <ul className="nav-list">
@@ -52,7 +52,7 @@ export function Sidebar() {
         </ul>
       </nav>
 
-      <p className="sidebar-foot">SENG 383 · Tüm veriler sentetiktir</p>
+      <p className="sidebar-foot">Demo ortamı · Tüm veriler sentetiktir</p>
     </aside>
   );
 }

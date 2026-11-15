@@ -14,6 +14,13 @@ export const USERS = {
     role: 'specialist',
     specialistType: 'teacher',
   },
+  psychologist: {
+    id: 4,
+    name: 'Murat Psikolog',
+    email: 'psychologist@demo.test',
+    role: 'specialist',
+    specialistType: 'psychologist',
+  },
   doctor: {
     id: 5,
     name: 'Aylin Doktor',
@@ -38,12 +45,13 @@ function json(status, body) {
 
 const error = (status, code, message) => json(status, { error: { code, message } });
 
-function relationOf(user) {
-  if (user.role === 'parent') return 'parent';
-  if (user.role === 'child') return 'self';
-  if (user.id === USERS.teacher.id) return 'specialist';
-  return null;
-}
+const publicSpecialist = (u) => ({
+  id: u.id,
+  name: u.name,
+  email: u.email,
+  specialistType: u.specialistType,
+  linkedAt: '2026-11-02 09:30:00',
+});
 
 /**
  * Installs the fake API as global fetch and returns the vi.fn, so a test can
@@ -51,6 +59,14 @@ function relationOf(user) {
  */
 export function installFakeBackend(routes = {}) {
   const byToken = Object.fromEntries(Object.values(USERS).map((u) => [tokenFor(u), u]));
+  // Like the seed: the teacher and psychologist are linked, the doctor is not.
+  const linked = new Set([USERS.teacher.id, USERS.psychologist.id]);
+
+  function relationOf(user) {
+    if (user.role === 'parent') return 'parent';
+    if (user.role === 'child') return 'self';
+    return linked.has(user.id) ? 'specialist' : null;
+  }
 
   const fetchMock = vi.fn(async (path, init = {}) => {
     const method = init.method ?? 'GET';
@@ -93,6 +109,35 @@ export function installFakeBackend(routes = {}) {
         return error(403, 'NO_ACCESS', 'Bu çocuğun bilgilerine erişim izniniz yok.');
       }
       return json(200, { child: { ...CHILD, relation } });
+    }
+
+    const specialistsMatch = path.match(/^\/api\/children\/1\/specialists(?:\/(\d+))?$/);
+    if (specialistsMatch) {
+      const relation = relationOf(user);
+      if (!relation) return error(403, 'NO_ACCESS', 'Bu çocuğun bilgilerine erişim izniniz yok.');
+      const allowed = method === 'GET' ? ['parent', 'specialist'] : ['parent'];
+      if (!allowed.includes(relation)) return error(403, 'FORBIDDEN', 'Bu işlem için yetkiniz yok.');
+
+      if (method === 'GET') {
+        const specialists = Object.values(USERS).filter((u) => linked.has(u.id)).map(publicSpecialist);
+        return json(200, { specialists });
+      }
+      if (method === 'POST') {
+        const email = body?.email?.trim().toLowerCase();
+        if (!email) return error(400, 'VALIDATION_ERROR', 'Uzmanın e-posta adresi zorunludur.');
+        const found = Object.values(USERS).find((u) => u.email === email && u.role === 'specialist');
+        if (!found) {
+          return error(404, 'SPECIALIST_NOT_FOUND', 'Bu e-posta adresiyle kayıtlı bir uzman bulunamadı.');
+        }
+        if (linked.has(found.id)) return error(409, 'ALREADY_LINKED', 'Bu uzman çocuğa zaten bağlı.');
+        linked.add(found.id);
+        return json(201, { specialist: publicSpecialist(found) });
+      }
+      if (method === 'DELETE') {
+        const id = Number(specialistsMatch[1]);
+        if (!linked.delete(id)) return error(404, 'LINK_NOT_FOUND', 'Bu uzman çocuğa bağlı değil.');
+        return { ok: true, status: 204 };
+      }
     }
 
     return error(404, 'NOT_FOUND', 'İstenen kaynak bulunamadı.');

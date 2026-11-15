@@ -1,4 +1,4 @@
-import { SignIn, WarningCircle } from '@phosphor-icons/react';
+import { WarningCircle } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { Navigate, useLocation } from 'react-router';
 import { homePathFor, useAuth } from '../auth/AuthContext.jsx';
@@ -36,68 +36,72 @@ export default function LoginPage() {
 
   return (
     <main className="centered-page">
-      <form
-        className="login-card"
-        onSubmit={handleSubmit}
-        aria-labelledby="login-title"
-        data-testid={TEST_IDS.loginForm}
-        noValidate
-      >
+      <div className="login-card">
         <div className="login-brand">
-          <BrandMark />
+          <span className="brand">
+            <BrandMark />
+            <span className="brand-name">Gelişim Takibi</span>
+          </span>
           <div>
-            <h1 id="login-title">Giriş yap</h1>
-            <p className="muted">Çocuk gelişim takip platformu</p>
+            <h1 id="login-title">Hesabınıza giriş yapın</h1>
+            <p className="muted">Ebeveyn, uzman ve çocuk hesapları aynı ekrandan girer.</p>
           </div>
         </div>
 
-        {error && (
-          <p className="form-error" role="alert" data-testid={TEST_IDS.loginError}>
-            <WarningCircle size={18} weight="fill" aria-hidden="true" />
-            {error}
-          </p>
-        )}
-
-        <label className="field">
-          <span>E-posta</span>
-          <input
-            type="email"
-            name="email"
-            autoComplete="username"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            data-testid={TEST_IDS.loginEmail}
-          />
-        </label>
-
-        <label className="field">
-          <span>Şifre</span>
-          <input
-            type="password"
-            name="password"
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            data-testid={TEST_IDS.loginPassword}
-          />
-        </label>
-
-        <button
-          type="submit"
-          className="button button-primary button-block"
-          disabled={submitting}
-          data-testid={TEST_IDS.loginSubmit}
+        <form
+          className="login-panel"
+          onSubmit={handleSubmit}
+          aria-labelledby="login-title"
+          data-testid={TEST_IDS.loginForm}
+          noValidate
         >
-          <SignIn size={18} weight="bold" aria-hidden="true" />
-          {submitting ? 'Giriş yapılıyor' : 'Giriş yap'}
-        </button>
+          {error && (
+            <p className="form-error" role="alert" data-testid={TEST_IDS.loginError}>
+              <WarningCircle size={18} weight="fill" aria-hidden="true" />
+              {error}
+            </p>
+          )}
+
+          <label className="field">
+            <span>E-posta</span>
+            <input
+              type="email"
+              name="email"
+              autoComplete="username"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              data-testid={TEST_IDS.loginEmail}
+            />
+          </label>
+
+          <label className="field">
+            <span>Şifre</span>
+            <input
+              type="password"
+              name="password"
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              data-testid={TEST_IDS.loginPassword}
+            />
+          </label>
+
+          <button
+            type="submit"
+            className="button button-primary button-block"
+            disabled={submitting}
+            data-testid={TEST_IDS.loginSubmit}
+          >
+            {submitting ? 'Giriş yapılıyor' : 'Giriş yap'}
+          </button>
+        </form>
 
         <p className="muted login-note">
           Demo hesapları README'deki "Demo Accounts" bölümünde. Tüm veriler sentetiktir.
         </p>
-      </form>
+      </div>
     </main>
   );
 }

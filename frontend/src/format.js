@@ -5,8 +5,11 @@ const dateFormat = new Intl.DateTimeFormat('tr-TR', {
   timeZone: 'UTC',
 });
 
-export function formatDate(isoDate) {
-  return dateFormat.format(new Date(isoDate));
+// Accepts "2018-04-12" and SQLite's UTC "2026-11-13 09:30:00".
+export function formatDate(value) {
+  const iso = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(value) ? `${value.replace(' ', 'T')}Z` : value;
+  const date = new Date(iso);
+  return Number.isNaN(date.getTime()) ? '' : dateFormat.format(date);
 }
 
 export function initials(name) {

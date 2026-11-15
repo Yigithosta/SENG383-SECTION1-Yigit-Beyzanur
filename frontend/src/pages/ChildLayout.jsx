@@ -1,7 +1,8 @@
-import { NavLink, Outlet, useOutletContext, useParams } from 'react-router';
+import { CaretRight } from '@phosphor-icons/react';
+import { Link, NavLink, Outlet, useOutletContext, useParams } from 'react-router';
 import { useApi } from '../api/useApi.js';
 import { ApiErrorState, PageLoading } from '../components/States.jsx';
-import { ageInYears, formatDate, initials } from '../format.js';
+import { ageInYears, formatDate } from '../format.js';
 import { TEST_IDS } from '../testIds.js';
 
 // Tabs on the child page. M3 and M4 screens replace their placeholder
@@ -14,8 +15,13 @@ const TABS = [
 ];
 
 const RELATION_LABELS = {
-  parent: 'Ebeveyni olduğunuz çocuk',
-  specialist: 'Bağlı uzmanı olduğunuz çocuk',
+  parent: 'Ebeveyn',
+  specialist: 'Bağlı uzman',
+};
+
+const LIST_LABELS = {
+  parent: 'Çocuklarım',
+  specialist: 'Bağlı çocuklar',
 };
 
 // /children/:childId. The API answers 403 when the user is not the parent or
@@ -30,22 +36,22 @@ export default function ChildLayout() {
 
   return (
     <div className="content-stack">
-      <section className="hero" aria-labelledby="child-name">
-        <div className="hero-profile">
-          <span className="avatar avatar-lg" aria-hidden="true">
-            {initials(child.name)}
+      <header className="page-head">
+        <nav className="breadcrumb" aria-label="Konum">
+          <Link to="/children">{LIST_LABELS[child.relation]}</Link>
+          <CaretRight size={12} aria-hidden="true" />
+          <span aria-current="page">{child.name}</span>
+        </nav>
+        <h1 id="child-name" data-testid={TEST_IDS.childName}>
+          {child.name}
+        </h1>
+        <p className="page-meta">
+          <span>
+            {ageInYears(child.birthDate)} yaşında · Doğum tarihi {formatDate(child.birthDate)}
           </span>
-          <div>
-            <p className="eyebrow">{RELATION_LABELS[child.relation]}</p>
-            <h1 id="child-name" className="hero-name" data-testid={TEST_IDS.childName}>
-              {child.name}
-            </h1>
-            <p className="muted">
-              {ageInYears(child.birthDate)} yaşında · {formatDate(child.birthDate)}
-            </p>
-          </div>
-        </div>
-      </section>
+          <span className="tag">{RELATION_LABELS[child.relation]}</span>
+        </p>
+      </header>
 
       <nav className="tabs" aria-label="Çocuk sayfaları" data-testid={TEST_IDS.childNav}>
         {TABS.map((tab) => (
