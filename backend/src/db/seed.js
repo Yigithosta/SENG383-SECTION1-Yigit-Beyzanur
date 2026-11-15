@@ -48,10 +48,10 @@ function seed(db) {
     linkSpecialist.run(childId, ids.teacher);
     linkSpecialist.run(childId, ids.psychologist);
     // M3: demo events for the week of 2026-11-16.
-    insertEvent.run(childId, ids.parent, 'Weekly planning', '2026-11-16T09:00', '2026-11-16T09:30');
-    insertEvent.run(childId, ids.teacher, 'Learning session', '2026-11-17T10:00', '2026-11-17T11:00');
-    insertEvent.run(childId, ids.psychologist, 'Psychology session', '2026-11-19T14:00', '2026-11-19T15:00');
-    insertEvent.run(childId, ids.parent, 'Family activity', '2026-11-21T11:00', '2026-11-21T12:00');
+    insertEvent.run(childId, ids.parent, 'Haftalık planlama', '2026-11-16T09:00', '2026-11-16T09:30');
+    insertEvent.run(childId, ids.teacher, 'Okuma ve dil çalışması', '2026-11-17T10:00', '2026-11-17T11:00');
+    insertEvent.run(childId, ids.psychologist, 'Psikolog görüşmesi', '2026-11-19T14:00', '2026-11-19T15:00');
+    insertEvent.run(childId, ids.parent, 'Aile etkinliği: parkta oyun', '2026-11-21T11:00', '2026-11-21T12:00');
 
     const demoTasks = [
   {
