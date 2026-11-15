@@ -92,13 +92,13 @@ export default function AssignedTasksList({ childId, reloadKey = 0 }) {
               <p>
                 <strong>Durum:</strong>{' '}
                 {task.status === 'completed' ? (
-                  <span>
+                  <span className="tag tag-success">
                     Tamamlandı
                     {task.completedAt &&
                       ` (${formatDate(task.completedAt)})`}
                   </span>
                 ) : (
-                  <span>Bekliyor</span>
+                  <span className="tag">Bekliyor</span>
                 )}
               </p>
             </li>

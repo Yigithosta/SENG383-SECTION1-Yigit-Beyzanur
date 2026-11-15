@@ -33,6 +33,26 @@ export function shiftWeek(mondayString, weeks) {
   return formatLocalDate(date);
 }
 
+// "16 – 22 Kasım 2026", or "30 Kasım – 6 Aralık 2026" across months.
+export function formatWeekRange(startString, endString) {
+  const toDate = (value) => {
+    const [year, month, day] = value.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  };
+  const start = toDate(startString);
+  const end = toDate(endString);
+  const dayMonth = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long' });
+  const full = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  if (start.getFullYear() !== end.getFullYear()) {
+    return `${full.format(start)} – ${full.format(end)}`;
+  }
+  if (start.getMonth() !== end.getMonth()) {
+    return `${dayMonth.format(start)} – ${full.format(end)}`;
+  }
+  return `${start.getDate()} – ${full.format(end)}`;
+}
+
 // Returns all seven dates, Monday through Sunday.
 export function getWeekDays(mondayString) {
   const [year, month, day] = mondayString.split('-').map(Number);
