@@ -102,18 +102,108 @@ Status on 13 November 2026, the end of week 7 and the middle of Sprint 2. Releas
 
 ---
 
-## PMP-4. Progress Review: v0.2
 
-**Jira board screenshot:**
+## PMP-4. Progress Review: Week 8 (v0.1)
+**Review date:** 21 November 2026
 
-| Epic | Planned for this point | Status (Done / In progress / Not started) |
+**Sprint:** Sprint 2, Weeks 7–8 (9–22 November 2026)
+
+**Release:** v0.1 (M1–M4)
+### 1. Release Progress and Acceptance Criteria
+
+The v0.1 mid-term release was integrated into the main branch and tagged as `v0.1` at commit `59243b7`.
+
+| Epic | Planned deliverables | Acceptance criteria status |
 |---|---|---|
-| | | |
-| | | |
+| M1 – Login and roles | JWT authentication, demo accounts, role-based routing, CI, README and E2E tests | Implemented and merged. Login and role-routing scenarios passed local E2E tests. |
+| M2 – Linking specialists | Specialist linking API, access control, SpecialistsPage, confirmation before unlinking | Implemented and merged. Specialist UI tests passed. |
+| M3 – Weekly schedule | Events API, weekly schedule UI, role-based access | Implemented and merged. Events API and schedule UI tests passed. |
+| M4 – Tasks | Tasks API, assignment UI, child's My Tasks page | Implemented and merged. Task management tests passed. |
 
-**Changes to the plan (if any):**
+All four planned modules were included in the v0.1 codebase.
+
+### 2. Testing and Continuous Integration
+
+Testing was performed throughout Sprint 2 using Jest, Supertest, Vitest and Playwright.
+
+| Test area | Last locally verified result | Purpose |
+|---|---|---|
+| Backend | 102 tests passed across 7 suites | Authentication, access control, specialists, events, tasks, seed and health |
+| Frontend | 39 tests passed across 6 files | Login, role-based navigation, specialists, schedule and tasks |
+| Playwright E2E | 3 tests passed | Parent login, invalid credentials and child navigation |
+
+The Playwright tests use Chromium and start the application with an isolated temporary SQLite database.
+
+GitHub Actions was configured to run automated tests and the frontend build for pull requests targeting `main`.
+
+**CI status at release:** To be verified against the GitHub Actions run for commit `59243b7`.
+
+### 3. Sprint 2 Planned and Completed Work
+
+Sprint 2 focused on completing M1–M4, integrating the first Playwright E2E tests into CI, preparing the v0.1 demo, and updating project documentation.
+
+| Work package | Jira tickets | Result |
+|---|---|---|
+| M1 – Login and infrastructure | SCRUM-32, SCRUM-38, SCRUM-42 | Implemented and merged |
+| M2 – Specialist linking | SCRUM-43, SCRUM-44 | Implemented and merged |
+| M3 – Weekly schedule | SCRUM-33, SCRUM-34 | Implemented and merged |
+| M4 – Task management | SCRUM-35, SCRUM-36, SCRUM-37 | Implemented and merged |
+| Documentation | SCRUM-39, SCRUM-45 | README updated; PMP-3 completed |
+| Release preparation | SCRUM-46 | Demo script and v0.1 release prepared |
+| Week 8 review | SCRUM-41 | In progress at the time of this review |
+
+SCRUM-40 (SRS template fixes) was moved to Sprint 3, as documented in PMP-3.
+
+
+**Sprint 2 progress as of 21 November 2026:** The Jira board contains 15 tickets. Of these, 14 are Done, none are In Progress or In Review, and one remains To Do (SCRUM-41, PMP-4). This represents a completion rate of 93.3%.
+
+All M1–M4 development tasks are marked Done. The remaining Sprint 2 activity is completing and submitting this Week 8 progress review.
+
+
+### 4. Live Demo and Instructor Feedback
+
+The v0.1 live demonstration was conducted in class on Monday, 16 November 2026.
+
+The application was demonstrated successfully, and no technical errors were reported during the presentation.
+
+The instructor gave positive feedback and liked the demonstrated application.
+
+Additional refinements were planned for completion by 22 November 2026, before the end of Sprint 2.
+
+### 5. Delays, Risks and Mitigation
+
+| Risk or issue | Impact | Mitigation |
+|---|---|---|
+| Dependencies between backend and frontend tickets | Features required coordinated integration | Used dependent pull requests, reviews and automated tests |
+| Early demo deadline | v0.1 features needed to be integrated before Sprint 2 ended | Prioritized M1–M4 and prepared a dedicated demo script |
+| UI and integration changes | Potential regressions after merging multiple branches | Used frontend tests, backend tests, Playwright and build validation |
+| Demo data consistency | Rehearsals could modify demo records | Used synthetic seed data and documented database reset steps |
+| Remaining refinements | Additional work before the end of Week 8 | Planned revisions by 22 November and deferred non-critical changes |
+
+### 6. Actions for Sprint 3 (v0.2)
+
+Sprint 3 runs from 23 November to 6 December 2026, according to PMP-2.
+
+The team will:
+
+- Begin the planned M5–M8 work packages.
+- Expand E2E coverage to three critical user flows.
+- Complete the final SRS and design documentation.
+- Address SCRUM-40 and remaining documentation improvements.
+- Maintain CI checks and code review for every pull request.
+- Track dependencies and progress in Jira.
+
+These activities remain aligned with the Sprint 3 scope defined in PMP-2.
+
+### 7. Jira Board Evidence
+
+**Jira board screenshot:** Sprint 2 status at the end of Week 8.
+
+![Jira Sprint 2 board – Week 8](img/pmp4-jira-board.png)
+The screenshot will be stored in `docs/img/` and used to verify the final Sprint 2 ticket statuses and completion totals.
 
 ---
+
 
 ## PMP-5. Progress Review: Final (v1.0)
 
